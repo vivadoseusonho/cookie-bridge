@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookie Bridge Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif; background: #0f0f1a;
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px;
+  }
+  .card {
+    background: #1a1a2e; border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px; padding: 40px 36px; width: min(500px, 100%);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  }
+  .logo { text-align: center; margin-bottom: 32px; }
+  .logo h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+  .logo p { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 6px; }
+  .cookie-icon { font-size: 36px; margin-bottom: 10px; }
+  label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: rgba(255,255,255,0.5); letter-spacing: 1px;
+    text-transform: uppercase; margin-bottom: 8px;
+  }
+  input[type="text"] {
+    width: 100%; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 10px;
+    padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: 14px;
+    color: #fff; outline: none; transition: border-color 0.2s; margin-bottom: 20px;
+  }
+  input[type="text"]:focus { border-color: rgba(168,85,247,0.6); background: rgba(255,255,255,0.07); }
+  input[type="text"]::placeholder { color: rgba(255,255,255,0.2); }
+  .api-hint {
+    background: rgba(168,85,247,0.07); border: 1px solid rgba(168,85,247,0.15);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; margin-top: -12px;
+  }
+  .api-hint p { font-size: 11.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .api-hint a { color: #a855f7; text-decoration: none; }
+  .api-hint a:hover { text-decoration: underline; }
+  .btn-generate {
+    width: 100%; padding: 15px;
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+    border: none; border-radius: 12px; cursor: pointer;
+    transition: transform 0.15s, filter 0.15s; letter-spacing: 0.3px;
+  }
+  .btn-generate:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
+  .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
+  .status {
+    margin-top: 20px; padding: 14px 16px; border-radius: 10px;
+    font-size: 13.5px; display: none; align-items: center; gap: 10px;
+  }
+  .status.loading { display: flex; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); color: rgba(255,255,255,0.75); }
+  .status.success { display: flex; background: rgba(46,125,98,0.15); border: 1px solid rgba(46,125,98,0.3); color: #6ee7b7; }
+  .status.error { display: flex; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(168,85,247,0.3);
+    border-top-color: #a855f7; border-radius: 50%;
+    animation: spin 0.7s linear infinite; flex-shrink: 0;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .btn-download {
+    display: none; width: 100%; margin-top: 12px; padding: 13px;
+    background: rgba(46,125,98,0.2); border: 1px solid rgba(46,125,98,0.4);
+    color: #6ee7b7; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600;
+    border-radius: 12px; cursor: pointer; transition: background 0.15s;
+  }
+  .btn-download:hover { background: rgba(46,125,98,0.35); }
+  .btn-download.visible { display: block; }
+  .steps { margin-top: 28px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .step { display: flex; align-items: flex-start; gap: 12px; font-size: 12.5px; color: rgba(255,255,255,0.35); line-height: 1.5; }
+  .step-num {
+    width: 20px; height: 20px; background: rgba(168,85,247,0.15);
+    border: 1px solid rgba(168,85,247,0.25); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600; color: rgba(168,85,247,0.8); flex-shrink: 0; margin-top: 1px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">
+    <div class="cookie-icon">🍪</div>
+    <h1>Cookie Bridge Generator</h1>
+    <p>Cole o link do produto e receba o HTML pronto</p>
+  </div>
+
+  <label>URL da página do produto</label>
+  <input type="text" id="url" placeholder="https://exemplo.com/produto" />
+
+  <label>Seu link de afiliado (destino dos botões)</label>
+  <input type="text" id="affLink" placeholder="https://produto.com/order?aff_id=..." />
+
+  <label>Chave da API ScreenshotOne</label>
+  <input type="text" id="apiKey" placeholder="sua_chave_aqui" />
+  <div class="api-hint">
+    <p>Crie sua chave gratuita em <a href="https://screenshotone.com" target="_blank">screenshotone.com</a> — 100 capturas/mês grátis, sem cartão.</p>
+  </div>
+
+  <button class="btn-generate" id="btnGenerate" onclick="generate()">✨ Gerar página</button>
+
+  <div class="status" id="status">
+    <div class="spinner" id="spinner"></div>
+    <span id="statusText">Capturando screenshots...</span>
+  </div>
+
+  <button class="btn-download" id="btnDownload" onclick="download()">⬇️ Baixar HTML</button>
+
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><span>Cole a URL da página original do produto</span></div>
+    <div class="step"><div class="step-num">2</div><span>Cole seu link de afiliado — os botões do popup irão para ele</span></div>
+    <div class="step"><div class="step-num">3</div><span>Cole sua chave gratuita do ScreenshotOne</span></div>
+    <div class="step"><div class="step-num">4</div><span>Clique em Gerar e baixe o HTML pronto</span></div>
+  </div>
+</div>
+
+<script>
+  let generatedHTML = '';
+
+  async function generate() {
+    const url = document.getElementById('url').value.trim();
+    const affLink = document.getElementById('affLink').value.trim();
+    const apiKey = document.getElementById('apiKey').value.trim();
+
+    if (!url || !affLink || !apiKey) {
+      showStatus('error', '⚠️ Preencha todos os campos antes de gerar.');
+      return;
+    }
+    if (!url.startsWith('http')) {
+      showStatus('error', '⚠️ A URL deve começar com http:// ou https://');
+      return;
+    }
+
+    const btn = document.getElementById('btnGenerate');
+    btn.disabled = true;
+    document.getElementById('btnDownload').classList.remove('visible');
+    showStatus('loading', 'Capturando screenshots desktop e mobile... (pode levar ~15s)');
+
+    try {
+      const resp = await fetch('/api/screenshot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url, affLink, apiKey })
+      });
+
+      const data = await resp.json();
+      if (!resp.ok) throw new Error(data.error || 'Erro desconhecido');
+
+      generatedHTML = data.html;
+      showStatus('success', '✅ Página gerada com sucesso! Clique em Baixar.');
+      document.getElementById('btnDownload').classList.add('visible');
+
+    } catch (err) {
+      showStatus('error', '❌ Erro: ' + err.message);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  function download() {
+    if (!generatedHTML) return;
+    const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'cookie-bridge.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function showStatus(type, text) {
+    const el = document.getElementById('status');
+    el.className = 'status ' + type;
+    document.getElementById('statusText').textContent = text;
+    document.getElementById('spinner').style.display = type === 'loading' ? 'block' : 'none';
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Enter') generate(); });
+</script>
+</body>
+</html>
