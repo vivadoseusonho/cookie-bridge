@@ -10,7 +10,7 @@ module.exports = async function handler(req, res) {
   if (!apiKey) return res.status(400).json({ error: "apiKey é obrigatória" });
 
   try {
-    const desktopUrl = `https://api.screenshotone.com/take?access_key=${apiKey}&url=${encodeURIComponent(url)}&viewport_width=1280&viewport_height=900&format=jpg&image_quality=90&block_ads=true&block_cookie_banners=true&delay=2`;
+    const desktopUrl = `https://api.screenshotone.com/take?access_key=${apiKey}&url=${encodeURIComponent(url)}&viewport_width=1440&viewport_height=900&format=jpg&image_quality=90&block_ads=true&block_cookie_banners=true&delay=2&device_scale_factor=1`;
     const mobileUrl  = `https://api.screenshotone.com/take?access_key=${apiKey}&url=${encodeURIComponent(url)}&viewport_width=390&viewport_height=844&format=jpg&image_quality=90&block_ads=true&block_cookie_banners=true&delay=2&device_scale_factor=2`;
 
     const [desktopResp, mobileResp] = await Promise.all([fetch(desktopUrl), fetch(mobileUrl)]);
@@ -62,7 +62,7 @@ function buildHTML(desktopB64, mobileB64, affLink, originalUrl, lang) {
 
   .page-bg {
     position: fixed; inset: 0;
-    background-size: cover; background-position: top center; background-repeat: no-repeat;
+    background-size: 100% auto; background-position: top center; background-repeat: no-repeat;
     /* NO blur — just slight darkening like the original */
     filter: brightness(0.72);
     pointer-events: none; user-select: none;
