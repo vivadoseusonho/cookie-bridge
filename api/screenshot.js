@@ -38,46 +38,48 @@ const LANGS = {
   en: {
     cookie:    { title: "Cookie Policy", body: 'This site uses cookies to customize content and ads, provide social media resources and analyze our traffic. By clicking \u201cAllow\u201d, you agree to the use of cookies. For more information, visit our Cookie Policy.', allow: "Allow", close: "Close", privacy: "Your privacy is important to us" },
     recaptcha: { title: "Security Check", body: "Please confirm you are not a robot to continue to the page.", verify: "I'm not a robot", privacy: "Privacy", terms: "Terms" },
+    desconto:  {  hoje: "Today Only", badge: "Up to", off: "OFF", social: "8 out of 10 people prefer our product", cta: "Buy on the Official Website" },
+   
   },
   pt: {
     cookie:    { title: "Política de Cookies", body: 'Este site utiliza cookies para personalizar conteúdo e anúncios, fornecer recursos de mídia social e analisar nosso tráfego. Ao clicar em \u201cPermitir\u201d, você concorda com o uso de cookies. Para mais informações, acesse nossa Política de Cookies.', allow: "Permitir", close: "Fechar", privacy: "Sua privacidade é importante para nós" },
     recaptcha: { title: "Verificação de Segurança", body: "Por favor, confirme que você não é um robô para continuar.", verify: "Não sou um robô", privacy: "Privacidade", terms: "Termos" },
-    desconto:  { badge: "Até", off: "OFF", social: "8 em cada 10 pessoas preferem nosso produto", cta: "Comprar no Site Oficial" },
+    desconto:  { hoje: "Somente Hoje", badge: "Até", off: "OFF", social: "8 em cada 10 pessoas preferem nosso produto", cta: "Comprar no Site Oficial" },
   },
   es: {
     cookie:    { title: "Política de Cookies", body: 'Este sitio utiliza cookies para personalizar el contenido y los anuncios, proporcionar funciones de redes sociales y analizar nuestro tráfico. Al hacer clic en \u201cAceptar\u201d, acepta el uso de cookies.', allow: "Aceptar", close: "Cerrar", privacy: "Tu privacidad es importante para nosotros" },
     recaptcha: { title: "Verificación de Seguridad", body: "Por favor, confirma que no eres un robot para continuar.", verify: "No soy un robot", privacy: "Privacidad", terms: "Términos" },
-    desconto:  { badge: "Hasta", off: "OFF", social: "8 de cada 10 personas prefieren nuestro producto", cta: "Comprar en el Sitio Oficial" },
+    desconto:  {  hoje: "Solo Hoy", badge: "Hasta", off: "OFF", social: "8 de cada 10 personas prefieren nuestro producto", cta: "Comprar en el Sitio Oficial" },
   },
   fr: {
     cookie:    { title: "Politique de Cookies", body: "Ce site utilise des cookies pour personnaliser le contenu et les publicités, fournir des fonctionnalités de réseaux sociaux et analyser notre trafic. En cliquant sur \u201cAutoriser\u201d, vous acceptez l\u2019utilisation des cookies.", allow: "Autoriser", close: "Fermer", privacy: "Votre vie privée est importante pour nous" },
     recaptcha: { title: "Vérification de Sécurité", body: "Veuillez confirmer que vous n'êtes pas un robot pour continuer.", verify: "Je ne suis pas un robot", privacy: "Confidentialité", terms: "Conditions" },
-    desconto:  { badge: "Jusqu'à", off: "OFF", social: "8 personnes sur 10 préfèrent notre produit", cta: "Acheter sur le Site Officiel" },
+    desconto:  { hoje: "Aujourd'hui Seulement", badge: "Jusqu'à", off: "OFF", social: "8 personnes sur 10 préfèrent notre produit", cta: "Acheter sur le Site Officiel" },
   },
   it: {
     cookie:    { title: "Politica sui Cookie", body: "Questo sito utilizza cookie per personalizzare contenuti e annunci, fornire funzionalità di social media e analizzare il nostro traffico. Cliccando su \u201cConsenti\u201d, accetti l\u2019uso dei cookie.", allow: "Consenti", close: "Chiudi", privacy: "La tua privacy è importante per noi" },
     recaptcha: { title: "Verifica di Sicurezza", body: "Per favore, conferma di non essere un robot per continuare.", verify: "Non sono un robot", privacy: "Privacy", terms: "Termini" },
-    desconto:  { badge: "Fino al", off: "OFF", social: "8 persone su 10 preferiscono il nostro prodotto", cta: "Acquista sul Sito Ufficiale" },
+    desconto:  { hoje: "Solo Oggi", badge: "Fino al", off: "OFF", social: "8 persone su 10 preferiscono il nostro prodotto", cta: "Acquista sul Sito Ufficiale" },
   },
   de: {
     cookie:    { title: "Cookie-Richtlinie", body: "Diese Website verwendet Cookies, um Inhalte und Anzeigen zu personalisieren, Social-Media-Funktionen bereitzustellen und unseren Datenverkehr zu analysieren. Indem Sie auf \u201eZulassen\u201c klicken, stimmen Sie der Verwendung von Cookies zu.", allow: "Zulassen", close: "Schließen", privacy: "Ihre Privatsphäre ist uns wichtig" },
     recaptcha: { title: "Sicherheitsüberprüfung", body: "Bitte bestätigen Sie, dass Sie kein Roboter sind, um fortzufahren.", verify: "Ich bin kein Roboter", privacy: "Datenschutz", terms: "Nutzungsbedingungen" },
-    desconto:  { badge: "Bis zu", off: "RABATT", social: "8 von 10 Personen bevorzugen unser Produkt", cta: "Auf der offiziellen Website kaufen" },
+    desconto:  { hoje: "Nur Heute", badge: "Bis zu", off: "RABATT", social: "8 von 10 Personen bevorzugen unser Produkt", cta: "Auf der offiziellen Website kaufen" },
   },
   pl: {
     cookie:    { title: "Polityka Cookies", body: "Ta strona używa plików cookie do personalizacji treści i reklam, udostępniania funkcji mediów społecznościowych i analizowania ruchu. Klikając \u201eZezwól\u201c, zgadzasz się na używanie plików cookie.", allow: "Zezwól", close: "Zamknij", privacy: "Twoja prywatność jest dla nas ważna" },
     recaptcha: { title: "Weryfikacja Bezpieczeństwa", body: "Proszę potwierdzić, że nie jesteś robotem, aby kontynuować.", verify: "Nie jestem robotem", privacy: "Prywatność", terms: "Warunki" },
-    desconto:  { badge: "Do", off: "ZNIŻKI", social: "8 na 10 osób preferuje nasz produkt", cta: "Kup na Oficjalnej Stronie" },
+    desconto:  { hoje: "Tylko Dziś", badge: "Do", off: "ZNIŻKI", social: "8 na 10 osób preferuje nasz produkt", cta: "Kup na Oficjalnej Stronie" },
   },
   ro: {
     cookie:    { title: "Politica de Cookies", body: "Acest site folosește cookie-uri pentru a personaliza conținutul și anunțurile, pentru a oferi funcții de rețele sociale și pentru a analiza traficul nostru. Făcând clic pe \u201ePermite\u201c, ești de acord cu utilizarea cookie-urilor.", allow: "Permite", close: "Închide", privacy: "Confidențialitatea dvs. este importantă pentru noi" },
     recaptcha: { title: "Verificare de Securitate", body: "Vă rugăm să confirmați că nu sunteți un robot pentru a continua.", verify: "Nu sunt un robot", privacy: "Confidențialitate", terms: "Termeni" },
-    desconto:  { badge: "Până la", off: "REDUCERE", social: "8 din 10 persoane preferă produsul nostru", cta: "Cumpără pe Site-ul Oficial" },
+    desconto:  { hoje: "Doar Azi", badge: "Până la", off: "REDUCERE", social: "8 din 10 persoane preferă produsul nostru", cta: "Cumpără pe Site-ul Oficial" },
   },
   hu: {
     cookie:    { title: "Cookie-szabályzat", body: "Ez a webhely cookie-kat használ a tartalom és a hirdetések személyre szabásához, közösségi média funkciók biztosításához és forgalmunk elemzéséhez. Az \u201eEngedélyezés\u201c gombra kattintva hozzájárul a cookie-k használatához.", allow: "Engedélyezés", close: "Bezárás", privacy: "Az Ön adatvédelme fontos számunkra" },
     recaptcha: { title: "Biztonsági Ellenőrzés", body: "Kérjük, erősítse meg, hogy nem robot, hogy folytathasson.", verify: "Nem vagyok robot", privacy: "Adatvédelem", terms: "Feltételek" },
-    desconto:  { badge: "Akár", off: "KEDVEZMÉNY", social: "10-ből 8 ember preferálja termékünket", cta: "Vásárolj a Hivatalos Weboldalon" },
+    desconto:  { hoje: "Csak Ma", badge: "Akár", off: "KEDVEZMÉNY", social: "10-ből 8 ember preferálja termékünket", cta: "Vásárolj a Hivatalos Weboldalon" },
   },
 };
 
@@ -179,7 +181,7 @@ function popupDesconto(t, safeLink, pct) {
     .disc-cta:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(34,197,94,0.45); }
   </style>
   <div class="popup" role="dialog">
-    <div class="disc-pill">${t.badge} ${pct}% ${t.off}</div>
+    <div class="disc-pill">${t.hoje}</div>
     <div class="disc-title">${t.badge} <em>${pct}%</em> ${t.off}</div>
     <div class="disc-social">${t.social}</div>
     <div class="disc-rating">9.3</div>
