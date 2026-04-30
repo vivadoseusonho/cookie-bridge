@@ -163,32 +163,28 @@ function popupRecaptcha(t, safeLink) {
 
 // ── DESCONTO popup (estilo Revitag) ──
 function popupDesconto(t, safeLink, pct) {
-  const stars = '★★★★★';
+  const starFull = `<svg width="22" height="22" viewBox="0 0 24 24" fill="#f59e0b" xmlns="http://www.w3.org/2000/svg"><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z"/></svg>`;
+  const starHalf = `<svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="hg"><stop offset="50%" stop-color="#f59e0b"/><stop offset="50%" stop-color="#e5e7eb"/></linearGradient></defs><path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l7.1-1.01L12 2z" fill="url(#hg)"/></svg>`;
+  const starsHTML = starFull.repeat(4) + starHalf;
   return `<style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-    .popup { background:#fff; border-radius:12px; width:min(340px,96vw); box-shadow:0 20px 60px rgba(0,0,0,0.3),0 4px 16px rgba(0,0,0,0.12); text-align:center; animation:popIn 0.4s cubic-bezier(0.34,1.4,0.64,1) both; font-family:'Inter',sans-serif; padding:32px 28px 28px; position:relative; overflow:hidden; }
-    .disc-badge {
-      font-size:clamp(28px,10vw,42px); font-weight:800; color:#1a1a1a; line-height:1.1; margin-bottom:4px;
-    }
-    .disc-badge em { color:#e63946; font-style:normal; }
-    .disc-social { font-size:12.5px; color:#888; margin-bottom:16px; line-height:1.4; }
-    .disc-rating { font-size:clamp(32px,10vw,48px); font-weight:800; color:#1a1a1a; line-height:1; margin-bottom:4px; }
-    .disc-stars { color:#f59e0b; font-size:20px; letter-spacing:2px; margin-bottom:20px; }
-    .disc-divider { border:none; border-top:1px solid #eee; margin:0 -28px 20px; }
-    .disc-cta {
-      display:block; background:#2e7d62; color:#fff;
-      font-size:15px; font-weight:700; padding:15px 20px;
-      border-radius:8px; text-decoration:none;
-      box-shadow:0 4px 16px rgba(46,125,98,0.35);
-      transition:transform 0.15s,filter 0.15s;
-    }
-    .disc-cta:hover { transform:translateY(-2px); filter:brightness(1.08); }
+    .popup { background:#fff; border-radius:20px; width:min(340px,96vw); box-shadow:0 24px 64px rgba(0,0,0,0.18),0 4px 16px rgba(0,0,0,0.08); text-align:center; animation:popIn 0.4s cubic-bezier(0.34,1.4,0.64,1) both; font-family:Inter,sans-serif; padding:36px 32px 32px; }
+    .disc-pill { display:inline-block; background:#f0fdf4; border:1.5px solid #bbf7d0; color:#16a34a; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:5px 16px; border-radius:40px; margin-bottom:16px; }
+    .disc-title { font-size:clamp(26px,9vw,40px); font-weight:800; color:#111; line-height:1.1; margin-bottom:6px; letter-spacing:-0.5px; }
+    .disc-title em { color:#16a34a; font-style:normal; }
+    .disc-social { font-size:12.5px; color:#9ca3af; margin-bottom:20px; line-height:1.4; }
+    .disc-rating { font-size:clamp(36px,11vw,52px); font-weight:800; color:#111; line-height:1; margin-bottom:6px; letter-spacing:-1px; }
+    .disc-stars { display:flex; align-items:center; justify-content:center; gap:3px; margin-bottom:24px; }
+    .disc-divider { border:none; border-top:1px solid #f3f4f6; margin:0 -32px 24px; }
+    .disc-cta { display:block; background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; font-size:15px; font-weight:700; padding:16px 24px; border-radius:50px; text-decoration:none; box-shadow:0 6px 24px rgba(34,197,94,0.35); transition:transform 0.15s,box-shadow 0.15s; }
+    .disc-cta:hover { transform:translateY(-2px); box-shadow:0 10px 28px rgba(34,197,94,0.45); }
   </style>
   <div class="popup" role="dialog">
-    <div class="disc-badge">${t.badge} <em>${pct}%${t.off !== 'OFF' ? '' : ''}</em><em> ${t.off}</em></div>
+    <div class="disc-pill">${t.badge} ${pct}% ${t.off}</div>
+    <div class="disc-title">${t.badge} <em>${pct}%</em> ${t.off}</div>
     <div class="disc-social">${t.social}</div>
     <div class="disc-rating">9.3</div>
-    <div class="disc-stars">${stars}</div>
+    <div class="disc-stars">${starsHTML}</div>
     <hr class="disc-divider">
     <a href="${safeLink}" class="disc-cta">${t.cta}</a>
   </div>`;
