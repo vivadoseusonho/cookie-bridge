@@ -3,42 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cookie Bridge Generator</title>
+<title>Bridge Page Generator</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Inter', sans-serif; background: #0f0f1a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
-  .card { background: #1a1a2e; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 40px 36px; width: min(500px, 100%); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
-  .logo { text-align: center; margin-bottom: 32px; }
+  .card { background: #1a1a2e; border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 40px 36px; width: min(520px, 100%); box-shadow: 0 30px 80px rgba(0,0,0,0.5); }
+  .logo { text-align: center; margin-bottom: 28px; }
   .logo h1 { font-size: 22px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
   .logo p { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 6px; }
-  .cookie-icon { font-size: 36px; margin-bottom: 10px; }
+  .icon { font-size: 36px; margin-bottom: 10px; }
   label { display: block; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
-  input[type="text"], select {
+  input[type="text"], input[type="number"], select {
     width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
     border-radius: 10px; padding: 13px 16px; font-family: 'Inter', sans-serif; font-size: 14px;
     color: #fff; outline: none; transition: border-color 0.2s; margin-bottom: 20px; appearance: none;
   }
   select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='rgba(255,255,255,0.4)' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; background-color: rgba(255,255,255,0.05); }
   select option { background: #1a1a2e; color: #fff; }
-  input[type="text"]:focus, select:focus { border-color: rgba(168,85,247,0.6); background: rgba(255,255,255,0.07); }
-  input[type="text"]::placeholder { color: rgba(255,255,255,0.2); }
+  input:focus, select:focus { border-color: rgba(168,85,247,0.6); background: rgba(255,255,255,0.07); }
+  input::placeholder { color: rgba(255,255,255,0.2); }
+
+  .model-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
+  .model-card { border: 1.5px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 10px; text-align: center; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.03); }
+  .model-card:hover { border-color: rgba(168,85,247,0.4); background: rgba(168,85,247,0.05); }
+  .model-card.active { border-color: #a855f7; background: rgba(168,85,247,0.12); }
+  .model-card .micon { font-size: 24px; margin-bottom: 6px; }
+  .model-card .name { font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.7); line-height: 1.3; }
+  .model-card.active .name { color: #c084fc; }
+
+  .extra-field { display: none; }
+  .extra-field.visible { display: block; }
+
+  /* Cache indicator */
+  .cache-badge { display: none; align-items: center; gap: 8px; background: rgba(46,125,98,0.12); border: 1px solid rgba(46,125,98,0.25); border-radius: 8px; padding: 9px 14px; margin-bottom: 20px; font-size: 12px; color: #6ee7b7; }
+  .cache-badge.visible { display: flex; }
+  .cache-badge button { margin-left: auto; background: none; border: none; color: rgba(110,231,183,0.6); cursor: pointer; font-size: 11px; text-decoration: underline; }
+  .cache-badge button:hover { color: #6ee7b7; }
+
   .api-hint { background: rgba(168,85,247,0.07); border: 1px solid rgba(168,85,247,0.15); border-radius: 10px; padding: 12px 14px; margin-bottom: 20px; margin-top: -12px; }
   .api-hint p { font-size: 11.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
   .api-hint a { color: #a855f7; text-decoration: none; }
-  .api-hint a:hover { text-decoration: underline; }
-  .btn-generate { width: 100%; padding: 15px; background: linear-gradient(90deg, #7c3aed, #a855f7); color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; transition: transform 0.15s, filter 0.15s; letter-spacing: 0.3px; }
+
+  .btn-generate { width: 100%; padding: 15px; background: linear-gradient(90deg, #7c3aed, #a855f7); color: #fff; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; transition: transform 0.15s, filter 0.15s; }
   .btn-generate:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
   .btn-generate:disabled { opacity: 0.6; cursor: not-allowed; }
+
   .status { margin-top: 20px; padding: 14px 16px; border-radius: 10px; font-size: 13.5px; display: none; align-items: center; gap: 10px; }
   .status.loading { display: flex; background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2); color: rgba(255,255,255,0.75); }
   .status.success { display: flex; background: rgba(46,125,98,0.15); border: 1px solid rgba(46,125,98,0.3); color: #6ee7b7; }
   .status.error { display: flex; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
   .spinner { width: 16px; height: 16px; border: 2px solid rgba(168,85,247,0.3); border-top-color: #a855f7; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
+
   .btn-download { display: none; width: 100%; margin-top: 12px; padding: 13px; background: rgba(46,125,98,0.2); border: 1px solid rgba(46,125,98,0.4); color: #6ee7b7; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 600; border-radius: 12px; cursor: pointer; transition: background 0.15s; }
   .btn-download:hover { background: rgba(46,125,98,0.35); }
   .btn-download.visible { display: block; }
+
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 4px 0 24px; }
+
   .steps { margin-top: 28px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 22px; display: flex; flex-direction: column; gap: 10px; }
   .step { display: flex; align-items: flex-start; gap: 12px; font-size: 12.5px; color: rgba(255,255,255,0.35); line-height: 1.5; }
   .step-num { width: 20px; height: 20px; background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: rgba(168,85,247,0.8); flex-shrink: 0; margin-top: 1px; }
@@ -47,13 +70,37 @@
 <body>
 <div class="card">
   <div class="logo">
-    <div class="cookie-icon">🍪</div>
-    <h1>Cookie Bridge Generator</h1>
+    <div class="icon">🍪</div>
+    <h1>Bridge Page Generator</h1>
     <p>Cole o link do produto e receba o HTML pronto</p>
   </div>
 
+  <label>Modelo de página</label>
+  <div class="model-grid">
+    <div class="model-card active" onclick="selectModel('cookie', this)">
+      <div class="micon">🍪</div>
+      <div class="name">Cookie Policy</div>
+    </div>
+    <div class="model-card" onclick="selectModel('recaptcha', this)">
+      <div class="micon">🤖</div>
+      <div class="name">reCaptcha</div>
+    </div>
+    <div class="model-card" onclick="selectModel('desconto', this)">
+      <div class="micon">🎁</div>
+      <div class="name">Desconto</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
   <label>URL da página do produto</label>
-  <input type="text" id="url" placeholder="https://exemplo.com/produto" />
+  <input type="text" id="url" placeholder="https://exemplo.com/produto" oninput="checkCache()" />
+
+  <!-- Cache indicator -->
+  <div class="cache-badge" id="cacheBadge">
+    <span>✅ Print em cache — geração instantânea!</span>
+    <button onclick="clearCache()">Limpar</button>
+  </div>
 
   <label>Seu link de afiliado (destino dos botões)</label>
   <input type="text" id="affLink" placeholder="https://produto.com/order?aff_id=..." />
@@ -71,10 +118,15 @@
     <option value="hu">🇭🇺 Húngaro</option>
   </select>
 
+  <div class="extra-field" id="fieldDesconto">
+    <label>Percentual de desconto (%)</label>
+    <input type="number" id="desconto" placeholder="Ex: 50" min="1" max="99" />
+  </div>
+
   <label>Chave da API ScreenshotOne</label>
-  <input type="text" id="apiKey" placeholder="sua_chave_aqui" value="hMRilawFpn_zjw" />
+  <input type="text" id="apiKey" value="hMRilawFpn_zjw" />
   <div class="api-hint">
-    <p>Crie sua chave gratuita em <a href="https://screenshotone.com" target="_blank">screenshotone.com</a> — 100 capturas/mês grátis, sem cartão.</p>
+    <p>Chave gratuita em <a href="https://screenshotone.com" target="_blank">screenshotone.com</a> — 100 capturas/mês grátis.</p>
   </div>
 
   <button class="btn-generate" id="btnGenerate" onclick="generate()">✨ Gerar página</button>
@@ -87,42 +139,97 @@
   <button class="btn-download" id="btnDownload" onclick="download()">⬇️ Baixar HTML</button>
 
   <div class="steps">
-    <div class="step"><div class="step-num">1</div><span>Cole a URL da página original do produto</span></div>
-    <div class="step"><div class="step-num">2</div><span>Cole seu link de afiliado — os botões do popup irão para ele</span></div>
-    <div class="step"><div class="step-num">3</div><span>Selecione o idioma do popup</span></div>
-    <div class="step"><div class="step-num">4</div><span>Cole sua chave gratuita do ScreenshotOne e clique em Gerar</span></div>
+    <div class="step"><div class="step-num">1</div><span>Escolha o modelo de página</span></div>
+    <div class="step"><div class="step-num">2</div><span>Cole a URL do produto — prints são salvos em cache automaticamente</span></div>
+    <div class="step"><div class="step-num">3</div><span>Cole seu link de afiliado e selecione o idioma</span></div>
+    <div class="step"><div class="step-num">4</div><span>Clique em Gerar e baixe o HTML pronto</span></div>
   </div>
 </div>
 
 <script>
   let generatedHTML = '';
+  let currentModel = 'cookie';
+
+  // ── Cache helpers (sessionStorage — dura enquanto a aba estiver aberta) ──
+  function cacheKey(url) { return 'sc_' + btoa(url).replace(/=/g,''); }
+
+  function getCache(url) {
+    try {
+      const raw = sessionStorage.getItem(cacheKey(url));
+      return raw ? JSON.parse(raw) : null;
+    } catch { return null; }
+  }
+
+  function setCache(url, desktopB64, mobileB64) {
+    try { sessionStorage.setItem(cacheKey(url), JSON.stringify({ desktopB64, mobileB64 })); } catch {}
+  }
+
+  function checkCache() {
+    const url = document.getElementById('url').value.trim();
+    const badge = document.getElementById('cacheBadge');
+    badge.classList.toggle('visible', !!getCache(url));
+  }
+
+  function clearCache() {
+    const url = document.getElementById('url').value.trim();
+    try { sessionStorage.removeItem(cacheKey(url)); } catch {}
+    document.getElementById('cacheBadge').classList.remove('visible');
+  }
+
+  function selectModel(model, el) {
+    currentModel = model;
+    document.querySelectorAll('.model-card').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('fieldDesconto').classList.toggle('visible', model === 'desconto');
+  }
 
   async function generate() {
-    const url     = document.getElementById('url').value.trim();
-    const affLink = document.getElementById('affLink').value.trim();
-    const apiKey  = document.getElementById('apiKey').value.trim();
-    const lang    = document.getElementById('lang').value;
+    const url      = document.getElementById('url').value.trim();
+    const affLink  = document.getElementById('affLink').value.trim();
+    const apiKey   = document.getElementById('apiKey').value.trim();
+    const lang     = document.getElementById('lang').value;
+    const desconto = document.getElementById('desconto').value.trim();
 
-    if (!url || !affLink || !apiKey) { showStatus('error', '⚠️ Preencha todos os campos antes de gerar.'); return; }
-    if (!url.startsWith('http'))     { showStatus('error', '⚠️ A URL deve começar com http:// ou https://'); return; }
+    if (!url || !affLink)       { showStatus('error', '⚠️ Preencha URL e link de afiliado.'); return; }
+    if (!url.startsWith('http')){ showStatus('error', '⚠️ A URL deve começar com http:// ou https://'); return; }
+    if (currentModel === 'desconto' && !desconto) { showStatus('error', '⚠️ Digite o percentual de desconto.'); return; }
 
     const btn = document.getElementById('btnGenerate');
     btn.disabled = true;
     document.getElementById('btnDownload').classList.remove('visible');
-    showStatus('loading', 'Capturando screenshots desktop e mobile... (pode levar ~15s)');
+
+    // Check cache first
+    const cached = getCache(url);
+    const payload = { url, affLink, lang, model: currentModel, desconto };
+
+    if (cached) {
+      showStatus('loading', '⚡ Usando print em cache — gerando HTML...');
+      payload.desktopB64 = cached.desktopB64;
+      payload.mobileB64  = cached.mobileB64;
+    } else {
+      if (!apiKey) { showStatus('error', '⚠️ Chave da API necessária para capturar o print.'); btn.disabled = false; return; }
+      showStatus('loading', 'Capturando screenshots... (pode levar ~15s)');
+      payload.apiKey = apiKey;
+    }
 
     try {
       const resp = await fetch('/api/screenshot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url, affLink, apiKey, lang })
+        body: JSON.stringify(payload)
       });
 
       const data = await resp.json();
       if (!resp.ok) throw new Error(data.error || 'Erro desconhecido');
 
+      // Save to cache if fresh screenshots were taken
+      if (!cached && data.desktopB64 && data.mobileB64) {
+        setCache(url, data.desktopB64, data.mobileB64);
+        checkCache();
+      }
+
       generatedHTML = data.html;
-      showStatus('success', '✅ Página gerada com sucesso! Clique em Baixar.');
+      showStatus('success', cached ? '✅ Pronto! (print do cache)' : '✅ Página gerada com sucesso!');
       document.getElementById('btnDownload').classList.add('visible');
 
     } catch (err) {
@@ -137,7 +244,7 @@
     const blob = new Blob([generatedHTML], { type: 'text/html;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = 'cookie-bridge.html';
+    a.download = 'bridge-page.html';
     a.click();
     URL.revokeObjectURL(a.href);
   }
