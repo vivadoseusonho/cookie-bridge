@@ -38,7 +38,6 @@ const LANGS = {
   en: {
     cookie:    { title: "Cookie Policy", body: 'This site uses cookies to customize content and ads, provide social media resources and analyze our traffic. By clicking \u201cAllow\u201d, you agree to the use of cookies. For more information, visit our Cookie Policy.', allow: "Allow", close: "Close", privacy: "Your privacy is important to us" },
     recaptcha: { title: "Security Check", body: "Please confirm you are not a robot to continue to the page.", verify: "I'm not a robot", privacy: "Privacy", terms: "Terms" },
-    desconto:  { badge: "Up to", off: "OFF", social: "8 out of 10 people prefer our product", cta: "Buy on the Official Website" },
   },
   pt: {
     cookie:    { title: "Política de Cookies", body: 'Este site utiliza cookies para personalizar conteúdo e anúncios, fornecer recursos de mídia social e analisar nosso tráfego. Ao clicar em \u201cPermitir\u201d, você concorda com o uso de cookies. Para mais informações, acesse nossa Política de Cookies.', allow: "Permitir", close: "Fechar", privacy: "Sua privacidade é importante para nós" },
